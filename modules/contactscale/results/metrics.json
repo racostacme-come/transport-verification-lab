@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "parameters": {
+    "left_length_m": 0.06,
+    "right_length_m": 0.03,
+    "left_k_W_mK": 16,
+    "right_k_W_mK": 2,
+    "left_capacity_J_m3K": 4000000.0,
+    "right_capacity_J_m3K": 2000000.0,
+    "initial_left_K": 500,
+    "initial_right_K": 300,
+    "contact_resistance_m2K_W": 0.0002,
+    "time_min_s": 0.001,
+    "time_max_s": 10,
+    "time_count": 101
+  },
+  "crossover_time_s": 0.1024,
+  "reference_flux_at_1s_W_m2": 172444.35210217358,
+  "reference_heat_at_1s_J_m2": 276339.6351258266,
+  "perfect_contact_heat_at_1s_J_m2": 361081.333470564,
+  "perfect_contact_heat_excess_at_1s_relative": 0.3066577775068413,
+  "dense_exponential_error_K": 2.8421709430404007e-13,
+  "heat_quadrature_error_J_m2": 0.0,
+  "max_energy_balance_residual_J_m2": 0.0018219336874381042,
+  "domain_doubling_flux_relative_at_10s": 7.002412649831671e-13,
+  "contact_flux_orders_at_1s": [
+    1.0058096043138829,
+    2.0595127054504823,
+    2.019611958944171,
+    2.0049450866336196
+  ],
+  "smooth_orders": [
+    1.9963638746793595,
+    1.9990944183195547,
+    1.9997738213906548
+  ],
+  "refinement": [
+    {
+      "cells_per_slab": 20,
+      "mesh_resistance_over_contact": 2.34375,
+      "initial_flux_ratio": 0.2990654205607477,
+      "flux_error_at_1s_relative": 0.052752142508671884,
+      "heat_error_at_1s_relative": 0.16430608708869632,
+      "max_flux_error_relative": 0.6670155104027298,
+      "max_heat_error_relative": 0.6786173973482994
+    },
+    {
+      "cells_per_slab": 40,
+      "mesh_resistance_over_contact": 1.171875,
+      "initial_flux_ratio": 0.460431654676259,
+      "flux_error_at_1s_relative": 0.026270070737370643,
+      "heat_error_at_1s_relative": 0.04151893239248283,
+      "max_flux_error_relative": 0.48801048482279785,
+      "max_heat_error_relative": 0.5055295686083816
+    },
+    {
+      "cells_per_slab": 80,
+      "mesh_resistance_over_contact": 0.5859375,
+      "initial_flux_ratio": 0.6305418719211824,
+      "flux_error_at_1s_relative": 0.0063021123527660095,
+      "heat_error_at_1s_relative": 0.010137945060966547,
+      "max_flux_error_relative": 0.30117513955991304,
+      "max_heat_error_relative": 0.32396754013263196
+    },
+    {
+      "cells_per_slab": 160,
+      "mesh_resistance_over_contact": 0.29296875,
+      "initial_flux_ratio": 0.7734138972809667,
+      "flux_error_at_1s_relative": 0.0015542553185814434,
+      "heat_error_at_1s_relative": 0.0025195997238903756,
+      "max_flux_error_relative": 0.1492134587026449,
+      "max_heat_error_relative": 0.1738983326673177
+    },
+    {
+      "cells_per_slab": 320,
+      "mesh_resistance_over_contact": 0.146484375,
+      "initial_flux_ratio": 0.8722316865417377,
+      "flux_error_at_1s_relative": 0.0003872342399540152,
+      "heat_error_at_1s_relative": 0.0006289823921280524,
+      "max_flux_error_relative": 0.054619227951747784,
+      "max_heat_error_relative": 0.07540514153097588
+    }
+  ]
+}

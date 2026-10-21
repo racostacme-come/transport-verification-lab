@@ -1,0 +1,15 @@
+{
+  "pages": 4,
+  "engine": "tectonic.exe",
+  "sha256": {
+    "paper/paper.tex": "cc3f1fdcfd3844c16ca3e2275634e61ebd24edbd29707531c518743201814219",
+    "results/numbers.tex": "62944b408d430376550423dfd2a1c1c6044e32f59299aad2b1a2daf3515988ab",
+    "results/table.tex": "3d43bd43eeffc41a591c20ca6b6fa6ef2a97a5a578456bf3f067b788aaeff56b",
+    "results/contact-study.png": "855ca54cb85bfaba5296d366c6f58d92c6a926bcf292e303d27518b2fb380da1",
+    "results/metrics.json": "bd51c93850985b74c9043dbc3071764c70a0996df649931200ae1835a5fa63b6",
+    "results/history.csv": "4619f2a451d9cc421cbd422ecb2a888cbb6f26678e313072a82b217e50b0df32",
+    "results/refinement.csv": "ffbcc84c0e8a1ebf2b072a0795f14ad3d07b6b98c56557ac3cfb94fc7040acca",
+    "results/smooth.csv": "e9263dbf7bef7aa38649a0f325c758e5a651f200ea04cb5b54f379146edde955",
+    "paper/paper.pdf": "3e54ed3cf36c4f240c7f7214d00c3a0efcda4d610b36f73ad37ceff56def5a54"
+  }
+}
