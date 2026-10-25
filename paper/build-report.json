@@ -1,0 +1,14 @@
+{
+  "pages": 3,
+  "sha256": {
+    "paper/paper.tex": "aaa0f888823e0dbd84fc3283280d31904410a955238eec59e34f74eeb214d167",
+    "results/integration.json": "89244300fcb1dc4050048d4095d802aaf0ba4d4bae0abbdde2dedcc76f4ff50a",
+    "results/table.tex": "9f92b81b0814597b0ac6ad33f8ff83ef2384fda4ffa18d8ef8269580fd6851b7",
+    "integration.py": "af0a9b326391c87b1ca891b5e898792cd24d9cdd8df44bcea474b7a23fa51906",
+    "suite.json": "7537710aa0b6691ada86505c7f4452d4384e782e190f329f722a20c3f89242fa",
+    "verification.py": "84c308d2c6de6d972cbb4a3b36aa36a7631cd98db1a652f830b62d25f2d581ec",
+    "results/independent.json": "e67b3f3a1dbba14502350bf6714420ff25ff15d32966e946a10932def1373453",
+    "results/independent-table.tex": "1f90eb132842f610146632366652ce47a7f0ae23879499ee0dafa62e74d37db1",
+    "paper/paper.pdf": "50242eb3e9bd229896c5c09eef528574a6036ad444e48264008d17f972819f88"
+  }
+}

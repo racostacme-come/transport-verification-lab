@@ -1,0 +1,154 @@
+{
+  "original_blob_comparisons": 192,
+  "hash_repairs": [
+    {
+      "module": "staggerlab",
+      "path": ".clang-format",
+      "previous_archive_sha256": "00d2eba9fc1fff64b8b387bde6f23d9ffb1abfc769aef07eaefd1896120b5fa7",
+      "canonical_source_sha256": "499c4ea5a99dd9a8f5ba94905e001b0ca00b9eb17790da0c73a40d06b9ce2b94",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": ".gitattributes",
+      "previous_archive_sha256": "59020ba7411709615c6a2a11b7842c2e5042499bcfa6b5a1ea108fe4bebe869c",
+      "canonical_source_sha256": "bedc8933f440b6bc251a636d140524e867957d2d867e9f46372950988aaae3dd",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": ".gitignore",
+      "previous_archive_sha256": "20799adc888adcea588c02348c206efaee161fdcf57423aedd1c2fff5936ef69",
+      "canonical_source_sha256": "3df8befec449346df47cba171b2b035275411ace324ba11180c7d7a47fa5c139",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "CMakeLists.txt",
+      "previous_archive_sha256": "c52bceca67246bce88b0d8bcbd09bac16fc182ded9878c0d76ed6eb8c0071ceb",
+      "canonical_source_sha256": "3a79f306a603869afeeeb09757245ee4d068e3aa592c39e8791993a5cced3a55",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "CONTRIBUTING.md",
+      "previous_archive_sha256": "238bbc16fe9f9c5f67660a780c23843734cd4a4fed0960dda3188550b6919436",
+      "canonical_source_sha256": "a7dbe50e56cdddcf75f19e6cb4b61c08e83bb1c9f4fab36cc6cc208ae8d837f4",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "LICENSE",
+      "previous_archive_sha256": "5de2f431ca981980ac5c5c89a96cf34dabc4b625ebd9f079c0f0ed2bbeb5a3b7",
+      "canonical_source_sha256": "db5eb9944f19975ce0b6dc4b557b60548d4983eef49e204b734dc2464d756a85",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "pyproject.toml",
+      "previous_archive_sha256": "8f0c79640b3fe69e4ad4f805a4c2a8ba16a276bc14c465150a92cc0b97e8f80e",
+      "canonical_source_sha256": "0b01e16e9e7cb11d0dd4de01fc1fafb0b493cd80be3dbe56829ec832ab2daead",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "README.md",
+      "previous_archive_sha256": "261bfc366b34676a96968d4924697e5010eb83c8d8b89f67b365cf4c48a9c361",
+      "canonical_source_sha256": "ff872d076291a738e59581219230e7a3ed8a4707e2cfd25fe64b8e92c8b8ecb8",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "requirements-repro.txt",
+      "previous_archive_sha256": "6d1b146c046d49fdf5ba4cbf7d079c254fb8efaa91346331633eedead5341fb4",
+      "canonical_source_sha256": "581bab54689a9d84e07ab8452d799e9b06f027aa5b97e6b1c04f977cecf85607",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "docs/validation.md",
+      "previous_archive_sha256": "d2072620769b91e7e272cdab765423f061d58adfbe5634b9a30cd433da9924ae",
+      "canonical_source_sha256": "f41da4c27734de5a68e9111049856734d91b0d4ed22a089b6ef557b89649be17",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "paper/.gitignore",
+      "previous_archive_sha256": "be091810b9a0f91199ea4b81d84af819934cdff588c5c41c0e97fb1fbd0a4a9f",
+      "canonical_source_sha256": "c7cd0fc55d4b88bc4ed87b1cdc33670d9046174ab762188a0f2ce10290bb56e0",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "paper/paper.tex",
+      "previous_archive_sha256": "8d0df374c75aad5554b9e0611c9fe05c974ac6cf772794b2db8b5a70ada1e6e3",
+      "canonical_source_sha256": "3f5e2a16ae9721b189b0c1c0dc8aedce4197eac8e8dc72c6b3ac367c61f56557",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "paper/README.md",
+      "previous_archive_sha256": "08081a29a758ca858bd5bf0a3d158d864d04537f0f7fad9f9452e37b070f16d2",
+      "canonical_source_sha256": "d6403eb267769ac51fc08f84b8c4182a416140758cdb879f9e9c46070f56c302",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "paper/validation.json",
+      "previous_archive_sha256": "900792f4bdb2c116722fc39ccbe17ef4019b29c0653a45cdde3ff8c9cb023d34",
+      "canonical_source_sha256": "5cd76921de9d696b034c29d131056c891ff7c19557c65c15c86e428c79d6ef4d",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "results/energy.csv",
+      "previous_archive_sha256": "66ee6268b07bd3de3da29b02e43052d3490480d9ad17d23288b7e65e065025a1",
+      "canonical_source_sha256": "0a46abd31bee85f2a0fc8b149fb57c997017d789b4370399c0c28b50195228a6",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "results/fields.csv",
+      "previous_archive_sha256": "4c4f57a79d7e796a585599e2f9460aa907f31942dec8f7bf2d58082fc0b63b1a",
+      "canonical_source_sha256": "a2d3b6d0218084612ee853d6ce73cd523abd04fea25b13a03ed0510561bc673b",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "results/pressure_spectrum.csv",
+      "previous_archive_sha256": "630e3e21832ebf4b9dcb4dbf1a4ca630a310e718edb99782081e7cea80a55aef",
+      "canonical_source_sha256": "8f0d89aa84e583e4b08dcfaed5a7b5b51c1f74dcf7843155afe845e2a840246c",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "results/spatial.csv",
+      "previous_archive_sha256": "a3f5551c39fc181cbb08e7858ec21bfc99114f138fab66e08c4ac86d808f1818",
+      "canonical_source_sha256": "e53e85405644253987093c18267c779bd65729fa172ea92384fb871a86bbee1b",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "results/temporal.csv",
+      "previous_archive_sha256": "4762e97e27b1e1c2f8aae16925f3893a98fa245682edf39238dfc1fa7a0ce037",
+      "canonical_source_sha256": "f4a5f9d6ca887a5ac4356d11292b498eb5acac7e271158f8a3dbf88681be502d",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    },
+    {
+      "module": "staggerlab",
+      "path": "results/validation.json",
+      "previous_archive_sha256": "6beadd7dba2ab7b0e8ba683cc414e5dcde0cd117e4bc538c8a8e038e58dbecc3",
+      "canonical_source_sha256": "9826c11801ea8f3b7f06940ee8d18bc9fcff7c5200814aa82b01e2acef7e6f73",
+      "reason": "Archive CRLF conversion removed; bytes match pinned original Git blob."
+    }
+  ],
+  "intentional_patches": [
+    {
+      "module": "staggerlab",
+      "path": ".gitattributes",
+      "source_sha256": "bedc8933f440b6bc251a636d140524e867957d2d867e9f46372950988aaae3dd",
+      "patched_sha256": "51764282b8a0985d15e51a085fd56e2208a51a393c2a0ff0671fb3eb1eacdb28",
+      "reason": "Pin default text checkout to LF for portable byte integrity; no numerical source changes."
+    }
+  ]
+}

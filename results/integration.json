@@ -1,0 +1,93 @@
+{
+  "experiment": "heterogeneous-insulated-heat-chain",
+  "rows": [
+    {
+      "steps": 4,
+      "method": "be",
+      "mass_weighted_error": 0.011537357370372453,
+      "heat_balance_error": 1.285430095698814e-15,
+      "minimum_temperature": 0.12615478559698734
+    },
+    {
+      "steps": 4,
+      "method": "cn",
+      "mass_weighted_error": 0.041805023229666935,
+      "heat_balance_error": 2.662800535624399e-16,
+      "minimum_temperature": 0.13390289408881417
+    },
+    {
+      "steps": 4,
+      "method": "rannacher",
+      "mass_weighted_error": 0.0024259701039380842,
+      "heat_balance_error": 4.3194614551822497e-16,
+      "minimum_temperature": 0.13019349495031737
+    },
+    {
+      "steps": 8,
+      "method": "be",
+      "mass_weighted_error": 0.005874825495652267,
+      "heat_balance_error": 6.279698983036042e-16,
+      "minimum_temperature": 0.12906372463462779
+    },
+    {
+      "steps": 8,
+      "method": "cn",
+      "mass_weighted_error": 0.009280552578194688,
+      "heat_balance_error": 1.2611439670351388e-15,
+      "minimum_temperature": 0.13323280549784147
+    },
+    {
+      "steps": 8,
+      "method": "rannacher",
+      "mass_weighted_error": 0.0005937920648658412,
+      "heat_balance_error": 1.4988010832439613e-15,
+      "minimum_temperature": 0.1325596302283841
+    },
+    {
+      "steps": 16,
+      "method": "be",
+      "mass_weighted_error": 0.0029649602868404732,
+      "heat_balance_error": 2.508410146262463e-15,
+      "minimum_temperature": 0.13096557867825107
+    },
+    {
+      "steps": 16,
+      "method": "cn",
+      "mass_weighted_error": 0.0004306320360867769,
+      "heat_balance_error": 2.1228678537266177e-15,
+      "minimum_temperature": 0.13327956999377055
+    },
+    {
+      "steps": 16,
+      "method": "rannacher",
+      "mass_weighted_error": 0.00014774431034645836,
+      "heat_balance_error": 2.1653685788880495e-15,
+      "minimum_temperature": 0.1331172794541889
+    },
+    {
+      "steps": 32,
+      "method": "be",
+      "mass_weighted_error": 0.0014896388231514107,
+      "heat_balance_error": 4.0115480381963664e-15,
+      "minimum_temperature": 0.13207281053605102
+    },
+    {
+      "steps": 32,
+      "method": "cn",
+      "mass_weighted_error": 1.3633786404816983e-05,
+      "heat_balance_error": 9.809861256648844e-16,
+      "minimum_temperature": 0.1332966519534717
+    },
+    {
+      "steps": 32,
+      "method": "rannacher",
+      "mass_weighted_error": 3.689320483209373e-05,
+      "heat_balance_error": 9.519295074422729e-16,
+      "minimum_temperature": 0.13325615905474736
+    }
+  ],
+  "mass_operator_max_difference": 0.0,
+  "conductance_max_difference": 0.0,
+  "modal_reference_max_difference": 8.204548151979907e-14,
+  "scope": "Zero contact resistance is the shared model. Error is against a fixed discrete grid, not a continuum error."
+}

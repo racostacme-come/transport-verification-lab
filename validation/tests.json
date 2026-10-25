@@ -1,0 +1,43 @@
+[
+  {
+    "module": "fluxledger",
+    "returncode": 0,
+    "seconds": 3.672000000020489,
+    "output": "..........................................                               [100%]\n42 passed in 2.99s\n"
+  },
+  {
+    "module": "staggerlab",
+    "returncode": 0,
+    "seconds": 3.968999999924563,
+    "output": ".........................................                                [100%]\n41 passed in 3.33s\n"
+  },
+  {
+    "module": "layerlens",
+    "returncode": 0,
+    "seconds": 0.9529999999795109,
+    "output": "..........................................                               [100%]\n42 passed in 0.47s\n"
+  },
+  {
+    "module": "podguard",
+    "returncode": 0,
+    "seconds": 8.531000000075437,
+    "output": "...................................................                      [100%]\n51 passed in 7.80s\n"
+  },
+  {
+    "module": "heatstart",
+    "returncode": 0,
+    "seconds": 2.562999999965541,
+    "output": "..........................................                               [100%]\n42 passed in 1.96s\n"
+  },
+  {
+    "module": "contactscale",
+    "returncode": 0,
+    "seconds": 5.0,
+    "output": "............................                                             [100%]\n28 passed in 4.42s\n"
+  },
+  {
+    "module": "integration",
+    "returncode": 0,
+    "output": "..........                                                               [100%]\n10 passed in 0.48s\n"
+  }
+]
