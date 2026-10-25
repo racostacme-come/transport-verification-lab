@@ -1,0 +1,54 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,booktabs,hyperref}
+\hypersetup{colorlinks=true,urlcolor=blue}
+\title{Transport Verification Lab:\\Independent Checks of Discrete and Continuum Thermal Error}
+\author{}
+\date{25 October 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Can independent thermal implementations separate agreement of a spatial operator from error introduced by a time integrator? This software-methods paper consolidates 6 existing research implementations into a self-contained laboratory and adds a connected numerical experiment. Source snapshots, licenses, tests and original papers are retained with commit-level provenance and file hashes. The contribution is explicit interface verification and reproducible orchestration, rather than a new numerical method or a claim of physical validation. A heterogeneous thermal handoff and an independently derived cosine-mode experiment separate implementation consistency, temporal error and continuum error. Measured smooth-mode orders approach one for backward Euler and two for Crank--Nicolson, Rannacher startup and spatial refinement. No physical validation is claimed.
+\end{abstract}
+\section{Research scope and architecture}
+The laboratory spans conservative transport, incompressibility, boundary layers, reduced thermal models, startup damping and contact resistance. Thermal interface-cell matching and explicit stability in current DTU MMME lecture topics motivate the verification questions; the implementation and analytic experiments are original, and no private teaching material is distributed. The included implementations are fluxledger, staggerlab, layerlens, podguard, heatstart, contactscale~\cite{m0,m1,m2,m3,m4,m5}. Each remains a separately installable Python package; native C++ kernels retain their package-specific interfaces. The root runner builds the modules, executes tests in separate processes, checks imported file hashes and produces the new integration report. This process avoids test-module name collisions and makes failed checks visible instead of treating a directory collection as validated integration.
+\section{Governing model and connecting assumptions}
+For insulated finite-volume cells with widths $\Delta x_i$, capacities $c_i$ and conductivities $k_i$, define
+\[
+M_i=c_i\Delta x_i,\qquad
+g_{i+1/2}=\left(\frac{\Delta x_i}{2k_i}+R_{i+1/2}
++\frac{\Delta x_{i+1}}{2k_{i+1}}\right)^{-1}.
+\]
+The conductance graph Laplacian $K$ gives $M\dot T+KT=0$ and conserves $\mathbf{1}^TMT$. HeatStart corresponds to ContactScale with every added contact resistance $R=0$. The shared discrete reference is $\exp(-M^{-1}Kt)T_0$. Backward Euler and Crank--Nicolson approximate that evolution; Rannacher startup replaces the first two macro steps with pairs of backward-Euler half steps.
+\section{Reproducible experiment}
+The integration creates 40 cells on the unit interval, with conductivity 1 on the left half and 3 on the right, and volumetric capacity 2 on the left and 1 on the right. Initial temperature is 1 in the left half and 0 elsewhere. Added contact resistance is zero. The separately assembled mass/conductance arrays and modal propagators are compared. Both modal paths use SciPy tridiagonal eigensolvers, so agreement alone is not an independent analytic validation. At final time 0.02, 4, 8, 16 and 32 time steps are tested for each method. The reported norm is the square root of the mass-weighted sum of squared temperature differences against the ContactScale discrete reference. Run \texttt{python suite.py experiment} after installing the suite to regenerate the machine-readable results. All table entries below are generated from that report; no numerical result is copied from a component paper. Component source commits and per-file hashes are stored in the suite manifest. The experiment and integration test are versioned alongside this manuscript.
+\section{Measured integration results}
+\input{../results/table.tex}
+This experiment connects model assembly to time-step assessment without confusing a small heat-balance defect with field accuracy. The temporal methods preserve the same conserved heat while producing different transient errors. Agreement of two modal propagators supports the implementation handoff; it does not remove common spatial truncation or rule out shared eigensolver errors. FluxLedger, StaggerLab, LayerLens and PODGuard remain complementary transport, pressure, boundary-layer and reduced-order modules. Their different boundary conditions and operators prevent an automatic claim of a single coupled fluid-thermal model.
+\section{Independent verification and error separation}
+For constant $k=1.7$, $c=2.3$ on the insulated unit interval, use the smooth field $T(x,0)=1+\cos(\pi x)$ and exact cell-average initial data. For $N$ uniform cells define
+\[
+ a_i=\frac{\sin(\pi/(2N))}{\pi/(2N)}\cos(\pi x_i),\qquad
+ \lambda_h=\frac{k}{c}4N^2\sin^2\!\left(\frac{\pi}{2N}\right).
+\]
+The discrete solution is $1+a_i e^{-\lambda_h t}$; the continuum cell average is $1+a_i e^{-(k/c)\pi^2t}$. These formulas follow by applying the insulated difference stencil to the cosine mode and by integrating the continuous solution over each cell. Neither reference calls an eigensolver. At $t=0.1$, $N=10,20,40,80$ isolate spatial error with exact-in-time propagation. On $N=40$, 8--64 steps isolate temporal error against the analytic discrete mode. Orders are $\log_2(E_h/E_{h/2})$. Run \texttt{python suite.py experiment} to regenerate both reports and both tables.
+\input{../results/independent-table.tex}
+The analytic discrete defect is the largest maximum-norm discrepancy across the two modal implementations. The continuum norm uses the same mass weights as the thermal handoff. This homogeneous smooth test verifies second-order consistency, but does not establish that rate for discontinuous materials or added contact resistance.
+
+Independent two-cell tests use unequal masses $M_1,M_2$ and face conductance $g$: the difference mode decays at $g(1/M_1+1/M_2)$ and the weighted mean is constant. Exact scalar amplification factors also check all three temporal methods. Nonuniform-grid tests check conserved heat, decay of the quadratic diffusion functional and constant-offset invariance. A forward-Euler impulse at the limiting cell remains nonnegative at $0.99\min_i M_i/K_{ii}$ and becomes negative at $1.01$ times that bound, while conserving heat. Thus conservation alone cannot establish positivity or transient accuracy.
+
+\section{Validation scope and limitations}
+The root test command runs component Python tests and ten integration/independent checks, recording actual outputs. Native C++17 FluxLedger and StaggerLab invariant tests have a separate \texttt{suite.py native} command. Linux and Windows CI execute both commands; the manuscript job rejects unresolved references, overfull boxes and more than five pages. Native sanitizer, package-distribution and full historical reproduction campaigns are not claimed. Imported sources are pinned in \texttt{suite.json}; twenty line-ending-dependent hashes were repaired against original Git blobs, with one declared attributes patch and no numerical module edits.
+
+The handoff is valid at zero contact resistance; nonzero resistance requires extending HeatStart's operator. The first table measures temporal error on a fixed grid. The second table separately assesses continuum error for a homogeneous smooth field. A temperature step is a challenging transient but is not a full positivity or stability survey; subsequent Crank--Nicolson steps have no unconditional positivity guarantee. Results are synthetic, use unit cross-sectional area and do not constitute experimental thermal-contact validation.
+\section{Conclusion}
+The integrated repository supplies a common execution and evidence interface while preserving the assumptions that make each numerical component interpretable. The connected experiment makes a specific cross-component contract testable. Further coupling should be treated as new research work, with independently derived reference cases and a revised paper, rather than inferred from successful package installation.
+\begin{thebibliography}{9}
+\bibitem{m0} fluxledger. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/fluxledger}. Exact imported commit recorded in \texttt{suite.json}.
+\bibitem{m1} staggerlab. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/staggerlab}. Exact imported commit recorded in \texttt{suite.json}.
+\bibitem{m2} layerlens. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/layerlens}. Exact imported commit recorded in \texttt{suite.json}.
+\bibitem{m3} podguard. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/podguard}. Exact imported commit recorded in \texttt{suite.json}.
+\bibitem{m4} heatstart. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/heatstart}. Exact imported commit recorded in \texttt{suite.json}.
+\bibitem{m5} contactscale. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/contactscale}. Exact imported commit recorded in \texttt{suite.json}.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,12 @@
+{
+  "checked_utc": "2026-10-25T19:03:07.862675+00:00",
+  "python": "3.12.2",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pytest": "9.1.1",
+    "pypdf": "6.21.1"
+  },
+  "native_compiler": "MSVC 19.44.35219.0"
+}

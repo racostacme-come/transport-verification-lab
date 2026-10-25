@@ -1,0 +1,78 @@
+[
+  {
+    "name": "aliasguard",
+    "clean": true
+  },
+  {
+    "name": "boundarybalance",
+    "clean": true
+  },
+  {
+    "name": "bucklemap",
+    "clean": true
+  },
+  {
+    "name": "contactscale",
+    "clean": true
+  },
+  {
+    "name": "dampwatch",
+    "clean": true
+  },
+  {
+    "name": "fluxledger",
+    "clean": true
+  },
+  {
+    "name": "foldtrace",
+    "clean": true
+  },
+  {
+    "name": "forcewindow",
+    "clean": true
+  },
+  {
+    "name": "gapsmooth",
+    "clean": true
+  },
+  {
+    "name": "heatstart",
+    "clean": true
+  },
+  {
+    "name": "jointguard",
+    "clean": true
+  },
+  {
+    "name": "layerlens",
+    "clean": true
+  },
+  {
+    "name": "loadcoherent",
+    "clean": true
+  },
+  {
+    "name": "meshbeacon",
+    "clean": true
+  },
+  {
+    "name": "podguard",
+    "clean": true
+  },
+  {
+    "name": "quantflex",
+    "clean": true
+  },
+  {
+    "name": "shearscope",
+    "clean": true
+  },
+  {
+    "name": "staggerlab",
+    "clean": true
+  },
+  {
+    "name": "yieldledger",
+    "clean": true
+  }
+]

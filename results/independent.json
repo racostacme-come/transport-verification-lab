@@ -1,0 +1,107 @@
+{
+  "experiment": "analytic-insulated-cosine",
+  "final_time": 0.1,
+  "conductivity": 1.7,
+  "capacity": 2.3,
+  "continuum": [
+    {
+      "cells": 10,
+      "continuum_mass_error": 0.0030885658162160116,
+      "heatstart_analytic_max_error": 1.3322676295501878e-15,
+      "contactscale_analytic_max_error": 6.661338147750939e-16
+    },
+    {
+      "cells": 20,
+      "continuum_mass_error": 0.0007747033097194111,
+      "heatstart_analytic_max_error": 1.6431300764452317e-14,
+      "contactscale_analytic_max_error": 8.881784197001252e-15,
+      "observed_order": 1.9952212659863497
+    },
+    {
+      "cells": 40,
+      "continuum_mass_error": 0.0001938358880215579,
+      "heatstart_analytic_max_error": 2.4202861936828413e-14,
+      "contactscale_analytic_max_error": 4.907185768843192e-14,
+      "observed_order": 1.9988081979159884
+    },
+    {
+      "cells": 80,
+      "continuum_mass_error": 4.8468974779707e-05,
+      "heatstart_analytic_max_error": 1.099120794378905e-13,
+      "contactscale_analytic_max_error": 2.502442697505103e-13,
+      "observed_order": 1.9997022333922692
+    }
+  ],
+  "temporal": [
+    {
+      "method": "be",
+      "steps": 8,
+      "discrete_mass_error": 0.01646061921346142
+    },
+    {
+      "method": "be",
+      "steps": 16,
+      "discrete_mass_error": 0.008405953578858514,
+      "observed_order": 0.9695352134295979
+    },
+    {
+      "method": "be",
+      "steps": 32,
+      "discrete_mass_error": 0.004248578003023082,
+      "observed_order": 0.9844314366383043
+    },
+    {
+      "method": "be",
+      "steps": 64,
+      "discrete_mass_error": 0.0021359112231564333,
+      "observed_order": 0.9921283685066385
+    },
+    {
+      "method": "cn",
+      "steps": 8,
+      "discrete_mass_error": 0.0002612455520589802
+    },
+    {
+      "method": "cn",
+      "steps": 16,
+      "discrete_mass_error": 6.526268818288417e-05,
+      "observed_order": 2.0010761555619854
+    },
+    {
+      "method": "cn",
+      "steps": 32,
+      "discrete_mass_error": 1.6312631936811902e-05,
+      "observed_order": 2.000268843275582
+    },
+    {
+      "method": "cn",
+      "steps": 64,
+      "discrete_mass_error": 4.077968048429175e-06,
+      "observed_order": 2.0000671935175847
+    },
+    {
+      "method": "rannacher",
+      "steps": 8,
+      "discrete_mass_error": 0.0018920601785524683
+    },
+    {
+      "method": "rannacher",
+      "steps": 16,
+      "discrete_mass_error": 0.0004720093267067183,
+      "observed_order": 2.0030707034949047
+    },
+    {
+      "method": "rannacher",
+      "steps": 32,
+      "discrete_mass_error": 0.00011793962574026682,
+      "observed_order": 2.000766845766792
+    },
+    {
+      "method": "rannacher",
+      "steps": 64,
+      "discrete_mass_error": 2.9480989659340818e-05,
+      "observed_order": 2.000191660376543
+    }
+  ],
+  "scope": "Cell-average continuum reference; discrete cosine eigenmode derived analytically. Synthetic verification only."
+}
