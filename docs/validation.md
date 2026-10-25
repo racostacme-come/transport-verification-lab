@@ -7,6 +7,10 @@
 - Synthesis compiled with Tectonic; three pages including references; every page rendered and visually inspected. No overfull boxes or undefined references. Build input/output hashes: `paper/build-report.json`.
 - All 192 imports were compared byte-for-byte against the pinned original Git blobs. Twenty manifest hashes had described CRLF archive conversion, not those canonical blobs; old/new hashes are recorded in `docs/provenance-repair.json`. The only intentional imported edit pins StaggerLab's default text checkout to LF. Numerical source is unchanged.
 
+- Fresh clones with `core.autocrlf=false` and `true` both passed all 192 byte-integrity checks (`validation/checkouts.json`).
+- All 19 original component repositories remained clean (`validation/original-repositories.json`).
+- All nine synthesis build-report input/output hashes matched the committed files. Final local PDF pages were visually inspected after the title/layout revision.
+
 ## What each check establishes
 
 Implementation: separate assembly agreement, closed-form unequal two-cell exchange, analytic cosine discrete eigenmode, invariant heat/energy/offset tests, and native transport/operator identities.

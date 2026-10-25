@@ -1,0 +1,10 @@
+[
+  {
+    "core_autocrlf": "false",
+    "result": "Verified 192 imported files against the integration manifest."
+  },
+  {
+    "core_autocrlf": "true",
+    "result": "Verified 192 imported files against the integration manifest."
+  }
+]
