@@ -6,6 +6,17 @@ This major project integrates 6 previously independent research implementations 
 
 ## Start here
 
+The active extension studies **enthalpy conservation across phase endpoints**.
+Its [research contract](docs/enthalpy-conservation.md) fixes the question,
+equations, synthetic benchmarks, architecture and nine release gates. Day 1
+provides original constitutive/inverse APIs and an independent uniform
+heating/cooling baseline; the spatial solver and new C++ kernels are pending.
+The November 3-4 break shifts the seven-day target to November 11.
+
+After setup, run `python -m phasechange` for the 30-case source-bound
+[baseline](results/enthalpy-baseline.json). The current synthesis below remains
+the released v0.1.0 thermal study, not a paper for the new phase-change work.
+
 Python 3.11+ (CI uses 3.12), Git, internet for initial dependency installation, and a C++17 compiler are required. On Windows use Visual Studio 2022 with Desktop development with C++ and a Windows SDK. On Linux use GCC or Clang. Use a fresh virtual environment.
 
 ```sh

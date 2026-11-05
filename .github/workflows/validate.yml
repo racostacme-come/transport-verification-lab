@@ -20,6 +20,7 @@ jobs:
       - run: python suite.py test
       - run: python suite.py native
       - run: python suite.py experiment
+      - run: python -m phasechange --output validation/enthalpy-baseline.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
