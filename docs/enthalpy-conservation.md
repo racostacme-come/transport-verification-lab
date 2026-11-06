@@ -33,7 +33,7 @@ Negative kelvin states, nonfinite inputs and overflowing outputs are errors.
 Phase saturation is the constitutive definition, not clipping of an invalid
 solver state. Tref changes stored enthalpy by a constant, never heat differences.
 
-For a cell of volume V_i, the planned backward-Euler residual is
+For a cell of volume V_i, the backward-Euler residual is
 
 ```text
 R_i = V_i [H(T_i^{n+1})-H(T_i^n)]/dt
@@ -56,10 +56,39 @@ defect. The exact update H_new=H_old+q*dt handles multiple phase crossings.
 The independent scalar oracle spends time to reach each phase boundary, then
 changes dT/dt; it calls none of the constitutive methods or integrator.
 
-Next: immutable finite-volume mesh, safeguarded nonlinear solver and shared
-step result; then original C++17 residual/Jacobian/tridiagonal kernels with an
-explicit Python interface. C++ and spatial phase-change methods are pending.
-The existing native component checks are regression evidence only.
+The uniform-grid slab has cross section A and cell volume V = A dx. Each wall
+accepts a prescribed end-of-step temperature or insulation (None). Dirichlet
+wall conductance is 2kA/dx. A scalar or per-cell source supplies W/m³.
+
+```python
+from phasechange import Material
+from phasechange.finite_volume import Slab, advance
+
+material = Material(1200, 900, 1.8, 90000, 309, 311, reference=300)
+slab = Slab(length=0.012, cells=24, area=0.003)
+step = advance(material, slab, 305., 10., left=335., source=2.7e6)
+next_step = advance(material, slab, step.temperature, 10., left=335., source=2.7e6)
+```
+
+The solver assembles the step in joules. Newton uses a right-sided storage
+tangent and a symmetric positive-definite tridiagonal solve. Along its
+descent direction the residual dotted with the direction increases strictly.
+If a full step passes the minimum of the convex energy along this line, a
+bracketed scalar root finds the minimum. Trial evaluations extend the solid
+branch below zero kelvin. Accepted temperatures must be nonnegative.
+
+The cell stopping scale is V times [rho c (Tl-Ts) + rho L]. The largest
+absolute cell residual divided by this scale must be at most 1e-10. The
+independent ledger integrates sensible heat and the overlap of each cell's
+temperature change with the melting interval. It reconstructs wall heat
+from endpoint temperatures and the half-cell gradient. Stored energy minus
+both inward wall heats and source input, scaled by the sum of cell scales,
+must have magnitude at most 1e-9. Exhausting the iteration budget raises an
+error and leaves the input state available for retry.
+
+Run `python -m phasechange.slab_checks` for the two-boundary-type experiment
+and analytical discrete cosine check. See [measured results](../validation/enthalpy-day2.md).
+The new C++ kernels are scheduled for day 3.
 
 ```sh
 python -m phasechange --output results/enthalpy-baseline.json
@@ -68,7 +97,7 @@ python -m pytest tests/test_phasechange.py -q
 
 Run these from the repository root after `python suite.py install`. The CLI
 checks numerical gates and writes deterministic JSON bound to SHA-256 hashes
-of every phase-change source and the benchmark file. CI reproduces the JSON
+of the uniform baseline sources and the benchmark file. CI reproduces the JSON
 on Linux and Windows; the regression test rejects stale source hashes.
 
 ## Fixed synthetic experiments and scales

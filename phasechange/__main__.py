@@ -37,7 +37,8 @@ def experiment():
             rows.append({'case': case['name'], 'subdivisions': subdivisions,
                          'history': asdict(history), 'reference_temperature_K': reference,
                          'scaled_temperature_error': error, 'scaled_energy_defect': energy})
-    files = sorted((ROOT/'phasechange').glob('*.py'))+[ROOT/'phasechange/benchmarks.json']
+    files = [ROOT/'phasechange'/name for name in ('__init__.py', '__main__.py',
+             'material.py', 'reference.py', 'uniform.py', 'benchmarks.json')]
     return {'schema_version': 1, 'scope': 'Uniform constitutive verification only; no spatial solver, front accuracy or physical validation claim.',
             'source_sha256': {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files},
             'temperature_scale_K': tscale, 'enthalpy_scale_J_m3': hscale,

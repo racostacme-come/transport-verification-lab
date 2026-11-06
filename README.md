@@ -8,9 +8,10 @@ This major project integrates 6 previously independent research implementations 
 
 The active extension studies **enthalpy conservation across phase endpoints**.
 Its [research contract](docs/enthalpy-conservation.md) fixes the question,
-equations, synthetic benchmarks, architecture and nine release gates. Day 1
-provides original constitutive/inverse APIs and an independent uniform
-heating/cooling baseline; the spatial solver and new C++ kernels are pending.
+equations, synthetic benchmarks, architecture and nine release gates. The Python solver now advances a 1-D slab through melting and freezing.
+Run `python -m phasechange.slab_checks` to reproduce the signed heat ledger and
+the insulated heat-mode check. [Day-2 measurements](validation/enthalpy-day2.md)
+include the fixed geometry, errors and verification limits.
 The November 3-4 break shifts the seven-day target to November 11.
 
 After setup, run `python -m phasechange` for the 30-case source-bound

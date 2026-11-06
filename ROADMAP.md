@@ -22,9 +22,7 @@ preserved. New study source and acceptance contract: [enthalpy conservation](doc
 | 8 | 2026-11-12 | Use only for explicitly justified numerical, portability or manuscript repairs; retain this project. |
 | 9 | 2026-11-13 | Finish justified repairs or report precise blocker and recovery plan; continue the same project until acceptance rather than falsely declare completion. |
 
-Current: constitutive/inverse and uniform baseline implemented; final validation
-and feature publication are recorded in validation/enthalpy-day1.md. No spatial
-phase-change or new native-kernel completion claim. The existing three-page
-synthesis remains supporting prior work until a measured replacement is ready.
-
-Next: On 6 November implement conservative finite-volume backward Euler, safeguarded nonlinear solve and independent energy ledger; first inspect any unfinished day-1 hosted gates.
+Day 2 delivered the Python conservative finite-volume step and independent
+energy ledger. The [day-2 record](validation/enthalpy-day2.md) documents the
+numerical checks. Next, implement the C++17 residual, Jacobian and tridiagonal
+kernels and compare them with the Python solver.
