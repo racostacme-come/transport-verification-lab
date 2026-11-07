@@ -28,6 +28,14 @@ cases and ten-step heat/cool trajectory agree within the declared scales;
 see [day-3 evidence](validation/enthalpy-day3.md) and [native API](docs/enthalpy-native.md).
 Hosted results are recorded in the persistent portfolio. No merge or release.
 
-Next, on November 8 implement the frozen-capacity comparator and connected
-CLI experiments with matched inputs and all outcomes retained. Independent
-front/time/space studies follow on day 5; new synthesis on day 6.
+Day 4 adds the frozen-capacity comparator, common Python/native CLI, signed
+cumulative energy ledger and 30 uniform/five slab/four coarse front experiments.
+405 Python tests and three native CTests pass locally; see
+[day-4 evidence](validation/enthalpy-day4.md). Ties, nonmonotone refinement and
+intermediate defects hidden by final cancellation are retained. The work was
+performed early on November 8, with actual commit timestamps preserved.
+
+Next: November 9 independent sharp Stefan and zero-latent heat references,
+isolated time/mesh/width/domain studies and synthesis outline. November 10
+original <=5-page synthesis, compilation and every-page visual review.
+Hosted evidence is recorded in the portfolio. No merge/release before all gates.

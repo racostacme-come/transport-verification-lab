@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "policy": "Day-4 comparison protocol, original synthetic data. The day-1 material, uniform schedules and Stefan reference protocol remain unchanged. These coarse front comparisons are integration experiments, not the day-5 acceptance refinement study.",
+  "heat_cool_slab": {
+    "length": 0.012, "cells": 24, "area": 0.003,
+    "initial_K": 305.0, "base_dt_s": 10.0, "steps_per_segment": 5,
+    "segments": [{"left_K": 335.0, "source_W_m3": 2700000.0}, {"left_K": 295.0, "source_W_m3": -2700000.0}],
+    "subdivisions": [1, 2, 4, 8, 16]
+  },
+  "front_comparison": {
+    "cells": 100, "width_K": 1.0,
+    "dt_s": [0.5, 0.25, 0.125, 0.0625],
+    "policy": "Use the day-1 Stefan initial temperature, wall, length, area and observation window; compare methods at fixed coarse mesh and width. No front accuracy gate until the independent reference study."
+  }
+}

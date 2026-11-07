@@ -1,4 +1,4 @@
-"""Run the fixed uniform baseline: python -m phasechange --output PATH."""
+"""Run a source-bound baseline or matched-method comparison."""
 import argparse
 from dataclasses import asdict
 import hashlib
@@ -57,12 +57,33 @@ def check(data):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, default=ROOT/'results/enthalpy-baseline.json')
+    parser.add_argument('--study', choices=('baseline', 'comparison'), default='baseline')
+    parser.add_argument('--backend', choices=('python', 'native'), default='python')
+    parser.add_argument('--output', type=Path)
+    parser.add_argument('--check-against', type=Path, help='Comparison JSON to verify before writing')
     args = parser.parse_args()
-    data = experiment(); check(data)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(data, indent=2, allow_nan=False)+'\n', encoding='utf-8', newline='\n')
-    print(json.dumps({k: v for k, v in data.items() if k not in ('source_sha256', 'cases')}, indent=2))
+    if args.study == 'baseline':
+        if args.check_against:
+            parser.error('--check-against applies to --study comparison')
+        if args.backend != 'python':
+            parser.error('baseline uses the exact Python constitutive inverse; choose --study comparison for native')
+        data = experiment(); check(data)
+        summary = {k: v for k, v in data.items() if k not in ('source_sha256', 'cases')}
+    else:
+        from .comparison import experiment as compare
+        from .native import NativeKernel
+        data = compare(None if args.backend == 'python' else NativeKernel())
+        if args.check_against:
+            from .comparison import verify_reproduction
+            verify_reproduction(data, json.loads(args.check_against.read_text(encoding='utf-8')))
+        summary = {'study': args.study, 'backend': args.backend,
+                   'uniform_cases': len(data['uniform']), 'slab_cases': len(data['heat_cool_slab']),
+                   'front_cases': len(data['front_comparison'])}
+    suffix = '-native' if args.backend == 'native' else ''
+    output = args.output or ROOT/f'results/enthalpy-{args.study}{suffix}.json'
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(data, indent=2, allow_nan=False)+'\n', encoding='utf-8', newline='\n')
+    print(json.dumps(summary, indent=2))
 
 
 if __name__ == '__main__':

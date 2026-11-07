@@ -3,7 +3,7 @@
   "scope": "Uniform constitutive verification only; no spatial solver, front accuracy or physical validation claim.",
   "source_sha256": {
     "phasechange/__init__.py": "9bdde5c17a0910a79f50a3fdb157dc165a0d21dd066f544637c9128cafcf7cc0",
-    "phasechange/__main__.py": "aa368a4b33640c27d5eda0cffac0e5c3448d73472fb3d63861c60a63a7d45416",
+    "phasechange/__main__.py": "72b8054661988624e9ec379b030922a19a187effdcfe70ec720be0e8b7640023",
     "phasechange/material.py": "8f868a38db9bcb95d9b7ea3baaf98bfecbc799162c87e360737431c5c9684bd2",
     "phasechange/reference.py": "cefc686eb4470bbd53677b6ee5ca647a0f30fb50c677aeab72b4a8d0153ebdfa",
     "phasechange/uniform.py": "98ee170cc242b79f2f3bb845e9f08abe1265d9ce0df9a4270164c6234555eda3",

@@ -9,3 +9,5 @@ dist/
 *.log
 *.out
 paper/renders/
+validation/comparison-*.json
+results/enthalpy-comparison-native.json

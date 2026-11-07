@@ -92,7 +92,8 @@ The day-3 [C++17 backend](enthalpy-native.md) supplies residual/Jacobian
 assembly and tridiagonal LDL solves through an explicit Python binding.
 Safeguarding, convergence criteria and independent ledger stay in Python.
 The native and Python paths therefore verify kernel agreement, not independent
-nonlinear algorithms. The frozen-capacity comparison remains day-4 work.
+nonlinear algorithms. The [day-4 frozen-capacity comparison](enthalpy-comparison.md)
+now uses matched uniform, slab and coarse front inputs with both backends.
 
 ```sh
 python -m phasechange --output results/enthalpy-baseline.json
