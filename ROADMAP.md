@@ -22,7 +22,12 @@ preserved. New study source and acceptance contract: [enthalpy conservation](doc
 | 8 | 2026-11-12 | Use only for explicitly justified numerical, portability or manuscript repairs; retain this project. |
 | 9 | 2026-11-13 | Finish justified repairs or report precise blocker and recovery plan; continue the same project until acceptance rather than falsely declare completion. |
 
-Day 2 delivered the Python conservative finite-volume step and independent
-energy ledger. The [day-2 record](validation/enthalpy-day2.md) documents the
-numerical checks. Next, implement the C++17 residual, Jacobian and tridiagonal
-kernels and compare them with the Python solver.
+Day 3 adds C++17 residual/Jacobian/LDL kernels and an explicit Python binding.
+360 local Python checks and three native CTests pass. The 36 assembly/state
+cases and ten-step heat/cool trajectory agree within the declared scales;
+see [day-3 evidence](validation/enthalpy-day3.md) and [native API](docs/enthalpy-native.md).
+Hosted results are recorded in the persistent portfolio. No merge or release.
+
+Next, on November 8 implement the frozen-capacity comparator and connected
+CLI experiments with matched inputs and all outcomes retained. Independent
+front/time/space studies follow on day 5; new synthesis on day 6.
