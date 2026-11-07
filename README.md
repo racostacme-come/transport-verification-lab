@@ -12,6 +12,11 @@ equations, synthetic benchmarks, architecture and nine release gates. The Python
 Run `python -m phasechange.slab_checks` to reproduce the signed heat ledger and
 the insulated heat-mode check. [Day-2 measurements](validation/enthalpy-day2.md)
 include the fixed geometry, errors and verification limits.
+An explicit C++17 backend now assembles the enthalpy residual and one-sided
+Jacobian and solves the tridiagonal Newton system. Build it before running
+the full tests, then run `python -m phasechange.native_checks` for 36
+assembly/state cases and a connected heating/cooling trajectory. See the
+[native API](docs/enthalpy-native.md) and [day-3 evidence](validation/enthalpy-day3.md).
 The November 3-4 break shifts the seven-day target to November 11.
 
 After setup, run `python -m phasechange` for the 30-case source-bound
@@ -26,8 +31,8 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 python suite.py verify
 python suite.py install
-python suite.py test
 python suite.py native
+python suite.py test
 python suite.py experiment
 ```
 
@@ -65,7 +70,7 @@ The command rejects unresolved references, overfull boxes and more than five pag
 
 Imported snapshots are pinned to original Git commits in `suite.json`, with SHA-256 for every imported file. `verify` detects unrecorded changes. Original repositories and histories remain available; this repository starts a new integration history. Intentional module changes require a documented patch record and manifest refresh. MIT notices are retained for every component; the integration layer is also MIT licensed.
 
-CI runs all component Python tests, ten root numerical checks and two native C++17 CTests on Linux and Windows. `python suite.py native --build-root ../../.native-transport` uses a shorter local path if Windows MSBuild encounters path limits. Native sanitizers and full historical reproduction campaigns are not claimed. Recorded results are synthetic numerical verification, not experimental physical validation.
+CI runs 246 component Python tests, 114 root checks and three native C++17 CTests on Linux and Windows. `python suite.py native --build-root ../../.native-transport` uses a shorter local path if Windows MSBuild encounters path limits. Native sanitizers and full historical reproduction campaigns are not claimed. Recorded results are synthetic numerical verification, not experimental physical validation.
 
 The 25 October local run passed 246 component tests, ten root tests and both native checks. At 80 cells, the homogeneous continuum mass-norm error is 4.847e-5 with observed order 1.9997. Smooth-mode temporal orders from 32 to 64 steps are 0.9921 (BE), 2.0001 (CN) and 2.0002 (Rannacher). See [validation scope](docs/validation.md), [independent results](results/independent.json), and [provenance repair](docs/provenance-repair.json). Hosted CI status must be read from the corresponding workflow run; local success is not a claim of external success.
 

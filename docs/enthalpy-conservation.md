@@ -88,7 +88,11 @@ error and leaves the input state available for retry.
 
 Run `python -m phasechange.slab_checks` for the two-boundary-type experiment
 and analytical discrete cosine check. See [measured results](../validation/enthalpy-day2.md).
-The new C++ kernels are scheduled for day 3.
+The day-3 [C++17 backend](enthalpy-native.md) supplies residual/Jacobian
+assembly and tridiagonal LDL solves through an explicit Python binding.
+Safeguarding, convergence criteria and independent ledger stay in Python.
+The native and Python paths therefore verify kernel agreement, not independent
+nonlinear algorithms. The frozen-capacity comparison remains day-4 work.
 
 ```sh
 python -m phasechange --output results/enthalpy-baseline.json

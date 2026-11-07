@@ -78,11 +78,13 @@ def _ledger(mat, slab, old, new, dt, source, left, right, scale):
 
 
 def advance(material: Material, slab: Slab, previous, dt, *, source=0.0,
-            left=None, right=None, max_iterations=60):
+            left=None, right=None, max_iterations=60, backend=None):
     """Advance one step; walls are prescribed kelvin or None for insulation.
 
     previous [K] and source [W/m3] can be scalar or cell arrays. Positive
     ledger entries are heat entering the slab. Failure returns no partial step.
+    backend=None uses NumPy/SciPy. Pass NativeKernel() explicitly for C++
+    residual, Jacobian and LDL solves; safeguarding and ledger stay in Python.
     """
     if not isfinite(dt) or dt <= 0:
         raise ValueError("dt must be positive and finite")
@@ -103,6 +105,9 @@ def advance(material: Material, slab: Slab, previous, dt, *, source=0.0,
         raise ValueError("unrepresentable face or storage scale")
 
     def residual(temp):
+        if backend is not None:
+            return backend.assemble(material, slab, old, temp, dt,
+                                    source=source, left=left, right=right)[0]
         # Extend the solid branch through zero only for Newton trials.
         # Work with increments to avoid cancellation against an arbitrary Tref.
         fraction = np.clip((temp-material.solidus)/width, 0.0, 1.0)
@@ -142,8 +147,13 @@ def advance(material: Material, slab: Slab, previous, dt, *, source=0.0,
         mushy = (temp >= material.solidus) & (temp < material.liquidus)
         capacity = np.where(mushy, material.mushy_capacity, material.capacity)
         bands[0] = volume*capacity + diagonal
-        direction = (solveh_banded(bands, -values, lower=True) if n > 1
-                     else -values/bands[0])
+        if backend is None:
+            direction = (solveh_banded(bands, -values, lower=True) if n > 1
+                         else -values/bands[0])
+        else:
+            _, native_diagonal, native_off = backend.assemble(
+                material, slab, old, temp, dt, source=source, left=left, right=right)
+            direction = backend.solve(native_diagonal, native_off, -values)
         # R is the gradient of a strictly convex potential. Its directional
         # derivative increases monotonically along the Newton search line.
         def slope(alpha):

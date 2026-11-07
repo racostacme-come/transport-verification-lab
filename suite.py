@@ -65,14 +65,16 @@ def experiment():
     print(json.dumps(reference_data, indent=2))
 
 def native(build_root=None):
-    """Build and execute the two native C++17 invariant checks."""
+    """Build component and original phase-change C++17 invariant checks."""
     reports = []
     build_root = Path(build_root).absolute() if build_root else ROOT / "build" / "native"
-    for name in ("fluxledger", "staggerlab"):
+    for name in ("fluxledger", "staggerlab", "phasechange"):
         build = build_root / name
+        source = ROOT / "native" if name == "phasechange" else ROOT / "modules" / name
+        options = [] if name == "phasechange" else [f"-D{name.upper()}_PYTHON=OFF"]
         commands = [
-            ["cmake", "-S", str(ROOT / "modules" / name), "-B", str(build),
-             f"-D{name.upper()}_PYTHON=OFF", "-DBUILD_TESTING=ON",
+            ["cmake", "-S", str(source), "-B", str(build),
+             *options, "-DBUILD_TESTING=ON",
              "-DCMAKE_BUILD_TYPE=Release"],
             ["cmake", "--build", str(build), "--config", "Release"],
             ["ctest", "--test-dir", str(build), "-C", "Release",
@@ -86,6 +88,12 @@ def native(build_root=None):
                             "returncode": result.returncode, "output": result.stdout})
             if result.returncode:
                 break
+        else:
+            if name == "phasechange":
+                (ROOT/"build").mkdir(exist_ok=True)
+                (ROOT/"build/phasechange-library.txt").write_text(
+                    (build/"library-Release.txt").read_text(encoding="utf-8"),
+                    encoding="utf-8", newline="\n")
     (ROOT / "validation").mkdir(exist_ok=True)
     (ROOT / "validation/native.json").write_text(
         json.dumps(reports, indent=2)+"\n", encoding="utf-8", newline="\n")
