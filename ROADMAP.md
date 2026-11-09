@@ -35,7 +35,14 @@ cumulative energy ledger and 30 uniform/five slab/four coarse front experiments.
 intermediate defects hidden by final cancellation are retained. The work was
 performed early on November 8, with actual commit timestamps preserved.
 
-Next: November 9 independent sharp Stefan and zero-latent heat references,
-isolated time/mesh/width/domain studies and synthesis outline. November 10
-original <=5-page synthesis, compilation and every-page visual review.
+Day 5 adds independent sharp Stefan and zero-latent heat references, isolated
+time/mesh/width/domain studies, original reference identity tests and the
+synthesis outline. Both Python and C++ backends reproduce the campaign.
+The run began early November 9; actual timestamps are retained. Do not repeat
+this milestone at the later scheduled run. See [evidence](validation/enthalpy-day5.md).
+
+Next: November 10 original <=5-page phase-change synthesis with generated,
+source-bound tables, compilation and every-page visual review. November 11
+release only after every acceptance gate passes. Hosted day-5 status is
+recorded in the external portfolio; no merge or release on day 5.
 Hosted evidence is recorded in the portfolio. No merge/release before all gates.

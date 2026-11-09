@@ -11,3 +11,4 @@ dist/
 paper/renders/
 validation/comparison-*.json
 results/enthalpy-comparison-native.json
+validation/refinement-*.json

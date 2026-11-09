@@ -25,6 +25,8 @@ jobs:
       - run: python -m phasechange.native_checks --output validation/enthalpy-native.json
       - run: python -m phasechange --study comparison --check-against results/enthalpy-comparison.json --output validation/comparison-python.json
       - run: python -m phasechange --study comparison --backend native --check-against validation/comparison-python.json --output validation/comparison-native.json
+      - run: python -m phasechange.refinement --check-against results/enthalpy-refinement.json --output validation/refinement-python.json
+      - run: python -m phasechange.refinement --backend native --check-against validation/refinement-python.json --output validation/refinement-native.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:

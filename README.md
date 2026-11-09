@@ -36,6 +36,15 @@ After setup, run `python -m phasechange` for the 30-case source-bound
 [baseline](results/enthalpy-baseline.json). The current synthesis below remains
 the released v0.1.0 thermal study, not a paper for the new phase-change work.
 
+Independent [heat and Stefan verification](docs/enthalpy-refinement.md) now
+tests fixed mesh/time/melting-width/domain studies for both methods and
+backends. Run `python -m phasechange.refinement`; see the
+[source-bound results](results/enthalpy-refinement.json),
+[day-5 measurements](validation/enthalpy-day5.md) and
+[new synthesis outline](paper/phasechange-outline.md). The finest conservative
+front error is 0.214% over all four prescribed times (2% target); nonmonotone
+and unfavorable comparisons remain in the evidence.
+
 Python 3.11+ (CI uses 3.12), Git, internet for initial dependency installation, and a C++17 compiler are required. On Windows use Visual Studio 2022 with Desktop development with C++ and a Windows SDK. On Linux use GCC or Clang. Use a fresh virtual environment.
 
 ```sh
