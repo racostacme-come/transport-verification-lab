@@ -33,15 +33,18 @@ python -m phasechange --study comparison --backend native --check-against result
 ```
 
 After setup, run `python -m phasechange` for the 30-case source-bound
-[baseline](results/enthalpy-baseline.json). The current synthesis below remains
-the released v0.1.0 thermal study, not a paper for the new phase-change work.
+[baseline](results/enthalpy-baseline.json). The current
+[phase-change synthesis](paper/paper.pdf) and [LaTeX source](paper/paper.tex)
+connect those checks to the comparison and independent front studies.
+The prior thermal synthesis remains preserved at the
+[v0.1.0 tag](https://github.com/racostacme-come/transport-verification-lab/blob/v0.1.0/paper/paper.pdf).
 
 Independent [heat and Stefan verification](docs/enthalpy-refinement.md) now
 tests fixed mesh/time/melting-width/domain studies for both methods and
 backends. Run `python -m phasechange.refinement`; see the
 [source-bound results](results/enthalpy-refinement.json),
 [day-5 measurements](validation/enthalpy-day5.md) and
-[new synthesis outline](paper/phasechange-outline.md). The finest conservative
+[manuscript evidence contract](docs/manuscript-evidence.md). The finest conservative
 front error is 0.214% over all four prescribed times (2% target); nonmonotone
 and unfavorable comparisons remain in the evidence.
 
@@ -80,19 +83,28 @@ This is a modular integration, not a universal multiphysics solver. Component AP
 ## Paper and evidence
 
 Read the new [synthesis paper](paper/paper.pdf) and [LaTeX source](paper/paper.tex).
-The component papers are retained as detailed supporting studies. New numerical claims are based on the connected experiment, not on simply adding together earlier performance claims.
+This original four-page study compares enthalpy increments with frozen apparent
+capacity, separates smooth heat time/space errors, and retains all eleven
+Stefan settings plus unfavorable comparisons. Component papers remain
+supporting studies. Reported tables and measured numerical macros are generated
+from source-bound experiment JSON.
 
 Compile with Tectonic or pdfLaTeX:
 ```sh
 python suite.py paper --engine tectonic
+python manuscript.py check-report
 ```
-The command rejects unresolved references, overfull boxes and more than five pages. CI independently builds the paper. [Architecture](docs/architecture.md), [source provenance](suite.json), and [development roadmap](ROADMAP.md) describe scope and future work.
+The command rejects stale tables/sources, unresolved references, overfull boxes
+and more than five pages. CI verifies the committed PDF and its complete input
+manifest before independently rebuilding and rechecking it. See the
+[evidence contract](docs/manuscript-evidence.md), [architecture](docs/architecture.md),
+[source provenance](suite.json), and [development roadmap](ROADMAP.md).
 
 ## Provenance and development
 
 Imported snapshots are pinned to original Git commits in `suite.json`, with SHA-256 for every imported file. `verify` detects unrecorded changes. Original repositories and histories remain available; this repository starts a new integration history. Intentional module changes require a documented patch record and manifest refresh. MIT notices are retained for every component; the integration layer is also MIT licensed.
 
-CI runs 246 component Python tests, 159 root checks and three native C++17 CTests on Linux and Windows. `python suite.py native --build-root ../../.native-transport` uses a shorter local path if Windows MSBuild encounters path limits. Native sanitizers and full historical reproduction campaigns are not claimed. Recorded results are synthetic numerical verification, not experimental physical validation.
+CI runs component and root Python tests plus three native C++17 CTests on Linux and Windows. `python suite.py native --build-root ../../.native-transport` uses a shorter local path if Windows MSBuild encounters path limits. Native sanitizers and full historical reproduction campaigns are not claimed. Recorded results are synthetic numerical verification, not experimental physical validation. See [day-6 evidence](validation/enthalpy-day6.md) for current counts and manuscript review.
 
 The 25 October local run passed 246 component tests, ten root tests and both native checks. At 80 cells, the homogeneous continuum mass-norm error is 4.847e-5 with observed order 1.9997. Smooth-mode temporal orders from 32 to 64 steps are 0.9921 (BE), 2.0001 (CN) and 2.0002 (Rannacher). See [validation scope](docs/validation.md), [independent results](results/independent.json), and [provenance repair](docs/provenance-repair.json). Hosted CI status must be read from the corresponding workflow run; local success is not a claim of external success.
 

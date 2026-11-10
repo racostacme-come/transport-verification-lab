@@ -1,4 +1,8 @@
-# Phase-change synthesis outline (day 5, not a completed manuscript)
+# Historical day-5 synthesis outline
+
+Superseded on day 6 by [paper.tex](paper.tex) and [paper.pdf](paper.pdf).
+This outline is retained as planning provenance; see
+[manuscript evidence](../docs/manuscript-evidence.md) for the current workflow.
 
 Target: replace paper.tex and paper.pdf on November 10 with an original
 manuscript of at most five pages including references. Keep the v0.1.0

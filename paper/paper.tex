@@ -1,54 +1,260 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[margin=22mm]{geometry}
 \usepackage{amsmath,booktabs,hyperref}
-\hypersetup{colorlinks=true,urlcolor=blue}
-\title{Transport Verification Lab:\\Independent Checks of Discrete and Continuum Thermal Error}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,citecolor=blue}
+\input{../results/paper-numbers.tex}
+\title{Energy Conservation and Front Accuracy\\Across a Regularized Melting Interval}
 \author{}
-\date{25 October 2026}
+\date{Transport Verification Lab: November 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-Can independent thermal implementations separate agreement of a spatial operator from error introduced by a time integrator? This software-methods paper consolidates 6 existing research implementations into a self-contained laboratory and adds a connected numerical experiment. Source snapshots, licenses, tests and original papers are retained with commit-level provenance and file hashes. The contribution is explicit interface verification and reproducible orchestration, rather than a new numerical method or a claim of physical validation. A heterogeneous thermal handoff and an independently derived cosine-mode experiment separate implementation consistency, temporal error and continuum error. Measured smooth-mode orders approach one for backward Euler and two for Crank--Nicolson, Rannacher startup and spatial refinement. No physical validation is claimed.
+When a time step crosses phase endpoints, does an accurate linear solve also
+conserve the material's true energy? We connect a conservative enthalpy solver,
+an intentionally frozen apparent-capacity comparator, independent heat and
+Stefan references, and Python/C++ implementations in a reproducible verification
+study. On eleven fixed front settings, the conservative cumulative scaled
+energy defect stays below $7\times10^{-13}$. Both methods meet the prescribed
+2\% front-error target at the finest setting. Unfavorable comparisons and
+nonmonotone errors are retained: conservation does not imply uniformly superior
+front accuracy. Independent smooth heat tests separate first-order temporal and
+second-order spatial error. The contribution is an original connected
+verification study of established methods, not a new discretization or
+experimental physical validation.
 \end{abstract}
-\section{Research scope and architecture}
-The laboratory spans conservative transport, incompressibility, boundary layers, reduced thermal models, startup damping and contact resistance. Thermal interface-cell matching and explicit stability in current DTU MMME lecture topics motivate the verification questions; the implementation and analytic experiments are original, and no private teaching material is distributed. The included implementations are fluxledger, staggerlab, layerlens, podguard, heatstart, contactscale~\cite{m0,m1,m2,m3,m4,m5}. Each remains a separately installable Python package; native C++ kernels retain their package-specific interfaces. The root runner builds the modules, executes tests in separate processes, checks imported file hashes and produces the new integration report. This process avoids test-module name collisions and makes failed checks visible instead of treating a directory collection as validated integration.
-\section{Governing model and connecting assumptions}
-For insulated finite-volume cells with widths $\Delta x_i$, capacities $c_i$ and conductivities $k_i$, define
+\section{Question, model and numerical connection}
+Enthalpy formulations for phase change are established~\cite{voller}. Here we
+ask how replacing a finite enthalpy increment by an old-state tangent affects
+energy accounting and front accuracy when a step crosses a melting interval.
+DTU's Modelling in Materials and Manufacturing Engineering (MMME) topics on
+solidification and implicit conduction motivate this study. Equations, code
+and synthetic experiments are original; no private course files, exercise
+solutions or teaching code are distributed. The six imported Transport modules
+remain versioned snapshots. The new \texttt{phasechange} package and C++17
+kernels form a connected study within that laboratory.
+
+Let $\rho,c,k,L$ denote constant density, specific heat, conductivity and
+latent heat per unit mass. On a stationary one-dimensional slab of area $A$,
+define volumetric enthalpy $H$ and liquid fraction $f$:
+\begin{equation}
+H(T)=\rho c(T-T_{\rm ref})+\rho Lf(T),\qquad
+f(T)=\min\{1,\max[0,(T-T_s)/w]\},\quad w=T_l-T_s>0.
+\end{equation}
+The model is $\partial_tH=k\partial_{xx}T+q$, with volumetric power $q$.
+There is no advection, density change, segregation or deformation.
+The constitutive inverse is exact on each branch. Clipping in $f$ defines the
+material law; accepted temperatures are never clipped to hide errors and must
+be nonnegative kelvin.
+
+For cell volume $V=A\Delta x$, internal conductance $g=kA/\Delta x$ and
+prescribed-wall conductance $2g$, conservative backward Euler solves
+\begin{equation}\label{eq:step}
+R_i=V[H(T_i^{n+1})-H(T_i^n)]
+ +\Delta t\sum_jg_{ij}(T_i^{n+1}-T_j^{n+1})-\Delta tVq_i=0.
+\end{equation}
+The sum includes a prescribed wall as a fixed neighbor; insulation omits that
+face. Newton steps use a right-sided tangent and a positive definite
+tridiagonal Jacobian. A scalar line search zeros the directional derivative
+of the strictly convex residual potential when a full step passes its minimum.
+The stopping test is $\|R\|_\infty/[V(\rho cw+\rho L)]\le10^{-10}$;
+iteration exhaustion is an error. The C++17 backend supplies residual,
+Jacobian and $LDL^T$ solves through an explicit Python interface. Both backends
+share the Python safeguard and ledger; agreement checks implementation, not
+independent validity of that algorithm.
+
+The frozen comparator replaces storage in (\ref{eq:step}) by
+$VH'_+(T_i^n)(T_i^{n+1}-T_i^n)$ for the entire step, including cooling from a
+phase endpoint. This deliberately uniterated approximation is not a claim
+about all apparent-capacity methods. Its linear residual can be small while
+the true enthalpy balance fails. With $Q_j$ the signed boundary/source heat
+entering the slab in step $j$, define
+\begin{equation}
+D_n=\frac{|\sum_iV[H(T_i^n)-H(T_i^0)]-\sum_{j=1}^nQ_j|}
+{A\ell(\rho cw+\rho L)},\qquad D_{\max}=\max_nD_n.
+\end{equation}
+Reporting the largest transient defect avoids hiding drift through final-cycle
+cancellation. Algebraic closure and temperature/front accuracy are distinct.
+
+\newpage
+\section{Independent references and experimental protocol}
+Uniform heating and cooling remove spatial error. An independent
+event-traversal reference computes times to each phase endpoint and integrates
+with the appropriate constant capacity; it calls neither the enthalpy inverse
+nor the spatial solver. Six schedules with 1, 2, 4, 8 and 16 subdivisions
+give baseline temperature error scaled by the 2 K interval and energy
+error scaled by $\rho cw+\rho L$ of at most
+\texttt{\BaselineTemperature} and \texttt{\BaselineEnergy}.
+Constitutive inverse, monotonicity and endpoint tests complement this check.
+
+For $L=0$, an insulated slab has exact cell-average cosine amplitudes
+\begin{equation}
+a_i=\frac{\sin(\pi/(2N))}{\pi/(2N)}\cos(\pi x_i/\ell),\qquad
+\mu=\alpha(\pi/\ell)^2,\qquad
+\mu_h=\frac{4\alpha}{\Delta x^2}\sin^2\frac{\pi}{2N},
+\end{equation}
+where $\alpha=k/(\rho c)$. Continuum and semidiscrete temperatures are
+$310+8a_i e^{-\mu t}$ and $310+8a_i e^{-\mu_ht}$ K. Backward Euler
+multiplies the discrete amplitude by $(1+\mu_h\Delta t)^{-1}$ per step.
+Comparing numerical steps with exact semidiscrete evolution isolates temporal
+error; comparing the two exact exponentials isolates spatial error without
+time contamination. An independently assembled incidence matrix and dense
+matrix exponential check the discrete oracle; quadrature checks cell averages.
+
+Synthetic constants are $\rho=1200$ kg/m$^3$, $c=900$ J/(kg K),
+$k=1.8$ W/(m K), and $L=90000$ J/kg when phase change is active.
+Heat studies use $\ell=0.1$ m and $t=1/\mu=607.927101854$ s: 32 cells with
+20--160 steps for time error, and 10--80 cells with exact discrete evolution
+for spatial error. These heat settings were specified on day 5; the Stefan
+protocol below was fixed on day 1. Table entries are maximum cell-temperature
+errors; successive order is $\log_2(E_{\rm coarse}/E_{\rm fine})$.
+\input{../results/paper-heat.tex}
+The largest error relative to the algebraic backward-Euler amplitude is
+\texttt{\HeatAlgebraic} K. These orders concern smooth constant-property
+heat conduction, not a moving phase front.
+
+For a hot wall $T_w$ and initially solid material at $T_m$, the independent
+one-phase sharp Stefan reference is
+\begin{align}
+s(t)&=2\lambda\sqrt{\alpha t},&
+\lambda e^{\lambda^2}\operatorname{erf}(\lambda)
+ &=\frac{c(T_w-T_m)}{L\sqrt{\pi}},\\
+T(x,t)&=T_w-(T_w-T_m)
+\frac{\operatorname{erf}(x/(2\sqrt{\alpha t}))}{\operatorname{erf}(\lambda)}
+\quad(x<s),&
+T(x,t)&=T_m\quad(x\ge s).
+\end{align}
+The constant-conductivity, prescribed-wall limit of the similarity
+construction is discussed in~\cite{ceretani}; that work treats solidification
+and a broader boundary model. The melting sign convention here is checked
+independently through the heat PDE, boundary temperatures and Stefan flux jump.
+Bisection of a monotone logarithmic equation gives $\lambda=\Similarity$.
+
+The fixed front protocol uses $T_m=310$ K, $T_w=330$ K, $A=1$ m$^2$ and an
+insulated far wall at $\ell=0.1$ m. Regularization has $T_s=T_m$, $T_l=T_m+w$
+and zero initial liquid fraction. Observations at 30, 60, 90 and 120 s exclude
+the singular initial instant. The numerical front is the interpolated
+decreasing $f=0.5$ crossing between cell centers; unresolved crossings are
+explicit failures. Four-level studies vary $N=100,200,400,800$,
+$\Delta t=0.5,0.25,0.125,0.0625$ s, or $w=1,0.5,0.25,0.125$ K, holding the
+other two at their finest values. Doubling $\ell$ and $N$ preserves $\Delta x$.
+Shared finest cases are computed once: eleven settings, each with both
+methods and both backends.
+
+\newpage
+\section{Measured endpoint, energy and front behavior}
+Superscripts $H,F$ label conservative enthalpy and frozen capacity.
+Uniform $E_T$ is the largest error against the event reference. The interval
+is 309--311 K and the volume is 1 m$^3$. Solid heating starts at 305 K for
+1 s; mushy heating/cooling start at 309.5/310.5 K for 2 s. Power is
+$\pm2.7$ MW/m$^3$. Crossing tests start at 305 or 330 K with the same signed
+power for 50 s. The closed cycle heats from 305 K for 50 s and cools for
+another 50 s. This table
+uses one step per segment; all subdivision histories remain in the JSON.
+Scientific notation uses \texttt{e} for powers of ten.
+\input{../results/paper-uniform.tex}
+The 100 K error is missed latent heat divided by sensible capacity, $L/c$.
+Final-cycle cancellation hides transient drift. Within a constitutive branch
+the methods agree. These crossing failures concern the specified uniterated
+approximation and time steps, not all capacity formulations.
+
+A connected slab test uses $\ell=0.012$ m, $A=0.003$ m$^2$, 24 cells,
+305 K initial temperature and an insulated right wall. Five 10 s base steps
+use a 335 K left wall and $q=2.7$ MW/m$^3$; five more use 295 K and negative
+power of the same magnitude. Each base step is subdivided uniformly.
+The temperature difference is between methods, not continuum error.
+\input{../results/paper-slab.tex}
+The nonmonotone differences show why implementation agreement cannot determine
+accuracy. Ledgers retain all steps, including unsampled front-study steps.
+For that separate study, define
 \[
-M_i=c_i\Delta x_i,\qquad
-g_{i+1/2}=\left(\frac{\Delta x_i}{2k_i}+R_{i+1/2}
-+\frac{\Delta x_{i+1}}{2k_{i+1}}\right)^{-1}.
+E_s=100\max_{t\in\{30,60,90,120\}}|s_h(t)/s(t)-1|.
 \]
-The conductance graph Laplacian $K$ gives $M\dot T+KT=0$ and conserves $\mathbf{1}^TMT$. HeatStart corresponds to ContactScale with every added contact resistance $R=0$. The shared discrete reference is $\exp(-M^{-1}Kt)T_0$. Backward Euler and Crank--Nicolson approximate that evolution; Rannacher startup replaces the first two macro steps with pairs of backward-Euler half steps.
-\section{Reproducible experiment}
-The integration creates 40 cells on the unit interval, with conductivity 1 on the left half and 3 on the right, and volumetric capacity 2 on the left and 1 on the right. Initial temperature is 1 in the left half and 0 elsewhere. Added contact resistance is zero. The separately assembled mass/conductance arrays and modal propagators are compared. Both modal paths use SciPy tridiagonal eigensolvers, so agreement alone is not an independent analytic validation. At final time 0.02, 4, 8, 16 and 32 time steps are tested for each method. The reported norm is the square root of the mass-weighted sum of squared temperature differences against the ContactScale discrete reference. Run \texttt{python suite.py experiment} after installing the suite to regenerate the machine-readable results. All table entries below are generated from that report; no numerical result is copied from a component paper. Component source commits and per-file hashes are stored in the suite manifest. The experiment and integration test are versioned alongside this manuscript.
-\section{Measured integration results}
-\input{../results/table.tex}
-This experiment connects model assembly to time-step assessment without confusing a small heat-balance defect with field accuracy. The temporal methods preserve the same conserved heat while producing different transient errors. Agreement of two modal propagators supports the implementation handoff; it does not remove common spatial truncation or rule out shared eigensolver errors. FluxLedger, StaggerLab, LayerLens and PODGuard remain complementary transport, pressure, boundary-layer and reduced-order modules. Their different boundary conditions and operators prevent an automatic claim of a single coupled fluid-thermal model.
-\section{Independent verification and error separation}
-For constant $k=1.7$, $c=2.3$ on the insulated unit interval, use the smooth field $T(x,0)=1+\cos(\pi x)$ and exact cell-average initial data. For $N$ uniform cells define
-\[
- a_i=\frac{\sin(\pi/(2N))}{\pi/(2N)}\cos(\pi x_i),\qquad
- \lambda_h=\frac{k}{c}4N^2\sin^2\!\left(\frac{\pi}{2N}\right).
-\]
-The discrete solution is $1+a_i e^{-\lambda_h t}$; the continuum cell average is $1+a_i e^{-(k/c)\pi^2t}$. These formulas follow by applying the insulated difference stencil to the cosine mode and by integrating the continuous solution over each cell. Neither reference calls an eigensolver. At $t=0.1$, $N=10,20,40,80$ isolate spatial error with exact-in-time propagation. On $N=40$, 8--64 steps isolate temporal error against the analytic discrete mode. Orders are $\log_2(E_h/E_{h/2})$. Run \texttt{python suite.py experiment} to regenerate both reports and both tables.
-\input{../results/independent-table.tex}
-The analytic discrete defect is the largest maximum-norm discrepancy across the two modal implementations. The continuum norm uses the same mass weights as the thermal handoff. This homogeneous smooth test verifies second-order consistency, but does not establish that rate for discontinuous materials or added contact resistance.
+The shared finest case is labeled refined; numbered cases use the levels
+listed above. The doubled-domain case uses $\ell=0.2$ m.
+\input{../results/paper-front.tex}
+Both refined methods meet the 2\% target: $E_s^H=\ConservativeFront\%$ and
+$E_s^F=\FrozenFront\%$. Across these settings the largest conservative and
+frozen $D_{\max}$ are \texttt{\ConservativeEnergy} and \texttt{\FrozenEnergy}.
+The largest equation residual for either method is \texttt{\MaxResidual}
+on its cell storage scale. A small linear residual does not imply true-energy
+closure; conservative closure does not remove discretization or regularization.
 
-Independent two-cell tests use unequal masses $M_1,M_2$ and face conductance $g$: the difference mode decays at $g(1/M_1+1/M_2)$ and the weighted mean is constant. Exact scalar amplification factors also check all three temporal methods. Nonuniform-grid tests check conserved heat, decay of the quadratic diffusion functional and constant-offset invariance. A forward-Euler impulse at the limiting cell remains nonnegative at $0.99\min_i M_i/K_{ii}$ and becomes negative at $1.01$ times that bound, while conserving heat. Thus conservation alone cannot establish positivity or transient accuracy.
+\newpage
+\section{Interpretation, reproducibility and limits}
+\paragraph{Retained counterexamples.}
+The finest conservative maximum front error is smaller, but this is not a
+universal ranking. At 30 s with 200 cells, frozen error is
+\FrozenMeshOneEarly\% versus \ConservativeMeshOneEarly\% for enthalpy.
+On 800 cells with $w=0.125$ K, reducing $\Delta t$ from 0.5 to 0.0625 s
+increases early conservative error from \CoarseTimeEarly\% to \FineTimeEarly\%.
+This is consistent with error cancellation, not evidence that coarse steps
+are generally preferable. No Stefan convergence order is asserted.
+Shrinking $w$ at fixed resolution can eventually underresolve the phase
+interval; the width study is a sensitivity experiment, not a complete
+asymptotic limit.
 
-\section{Validation scope and limitations}
-The root test command runs component Python tests and ten integration/independent checks, recording actual outputs. Native C++17 FluxLedger and StaggerLab invariant tests have a separate \texttt{suite.py native} command. Linux and Windows CI execute both commands; the manuscript job rejects unresolved references, overfull boxes and more than five pages. Native sanitizer, package-distribution and full historical reproduction campaigns are not claimed. Imported sources are pinned in \texttt{suite.json}; twenty line-ending-dependent hashes were repaired against original Git blobs, with one declared attributes patch and no numerical module edits.
+\paragraph{Independent evidence and its limits.}
+Event tests verify local accounting. Python/C++ residual/state comparisons,
+finite-difference derivatives away from kinks, one-sided endpoint checks
+and native invariants assess implementation consistency. Exact discrete
+heat evolution separates temporal from smooth spatial continuum error.
+Sharp Stefan discrepancies include finite-interval regularization and front
+interpolation as well as discretization. These factors are varied separately;
+an additive error decomposition is not claimed. Doubling the domain produces
+zero measured front and common-cell temperature differences for both methods
+at the four observations. This supports insensitivity at floating-point
+resolution in this window only, not a bound for later times or other inputs.
+Residuals are below the stopping threshold; no tolerance sweep was performed.
 
-The handoff is valid at zero contact resistance; nonzero resistance requires extending HeatStart's operator. The first table measures temporal error on a fixed grid. The second table separately assesses continuum error for a homogeneous smooth field. A temperature step is a challenging transient but is not a full positivity or stability survey; subsequent Crank--Nicolson steps have no unconditional positivity guarantee. Results are synthetic, use unit cross-sectional area and do not constitute experimental thermal-contact validation.
-\section{Conclusion}
-The integrated repository supplies a common execution and evidence interface while preserving the assumptions that make each numerical component interpretable. The connected experiment makes a specific cross-component contract testable. Further coupling should be treated as new research work, with independently derived reference cases and a revised paper, rather than inferred from successful package installation.
-\begin{thebibliography}{9}
-\bibitem{m0} fluxledger. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/fluxledger}. Exact imported commit recorded in \texttt{suite.json}.
-\bibitem{m1} staggerlab. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/staggerlab}. Exact imported commit recorded in \texttt{suite.json}.
-\bibitem{m2} layerlens. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/layerlens}. Exact imported commit recorded in \texttt{suite.json}.
-\bibitem{m3} podguard. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/podguard}. Exact imported commit recorded in \texttt{suite.json}.
-\bibitem{m4} heatstart. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/heatstart}. Exact imported commit recorded in \texttt{suite.json}.
-\bibitem{m5} contactscale. Versioned implementation and numerical study. \url{https://github.com/racostacme-come/contactscale}. Exact imported commit recorded in \texttt{suite.json}.
+\paragraph{Reproduction and evidence chain.}
+\begin{sloppypar}
+Source and synthetic results are public~\cite{code}. Use Python 3.11 or later
+(CI: 3.12), NumPy/SciPy and a C++17 compiler. In a fresh virtual environment,
+run \texttt{python suite.py} with \texttt{install}, \texttt{verify},
+\texttt{native} and \texttt{test} in turn. Reproduce the baseline with
+\texttt{python -m phasechange}, the comparison with
+\texttt{python -m phasechange --study comparison}, and refinement with
+\texttt{python -m phasechange.refinement}.
+The comparison and refinement commands accept \texttt{--backend native} and
+\texttt{--check-against} with a saved JSON path. Use distinct \texttt{--output}
+paths to preserve reference data. Linux and Windows CI repeat both complete
+campaigns, storing sampled fields, signed heat histories, front status,
+acceptance flags and numerical source/protocol SHA-256 hashes. Tests fail on
+missing evidence or numerical disagreement. The six imported snapshots remain
+separately installable and hash-checked; their prior synthesis remains at the
+v0.1.0 tag. Original histories are preserved.
+\end{sloppypar}
+
+After reproducing changed experiments, run \texttt{python manuscript.py generate}.
+It refuses stale numerical source hashes and generates all five table/number
+fragments. \texttt{python manuscript.py check} rejects stale tables.
+Build with \texttt{python suite.py paper --engine tectonic} or pdfLaTeX;
+the build rejects unresolved references, overfull boxes and more than five
+pages including references. \texttt{python manuscript.py check-report}
+checks page count and the complete source/data/table/PDF hash set.
+Mutation tests cover source drift, altered measurements, missing observations,
+failed gates, changed PDFs and incomplete manifests. CI verifies the committed
+artifact before rebuilding it independently. Local and CI pages are rendered
+for visual review, with actual outcomes in dated validation records.
+
+\paragraph{Conclusion and scope.}
+Finite enthalpy increments preserve energy across phase endpoints here;
+conservation cannot replace independent accuracy checks. The model excludes
+convection, segregation, unequal phase properties and hysteresis.
+No calibration, experimental validation, speedup or sanitizer coverage is
+claimed. Release remains conditional on all acceptance gates.
+
+\begin{thebibliography}{9}\small
+\bibitem{voller} V. R. Voller, M. Cross and N. C. Markatos.
+An enthalpy method for convection/diffusion phase change.
+\emph{International Journal for Numerical Methods in Engineering}
+24(1), 271--284 (1987). \url{https://doi.org/10.1002/nme.1620240119}.
+\bibitem{ceretani} A. N. Ceretani, N. N. Salva and D. A. Tarzia.
+An exact solution to a Stefan problem with variable thermal conductivity and
+a Robin boundary condition (2017). \url{https://arxiv.org/abs/1706.06984}.
+\bibitem{code} Transport Verification Lab. Versioned source, synthetic
+experiments and validation records.
+\url{https://github.com/racostacme-come/transport-verification-lab}.
+The manuscript build report pins source and result SHA-256 hashes.
 \end{thebibliography}
 \end{document}

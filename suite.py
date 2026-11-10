@@ -102,7 +102,9 @@ def native(build_root=None):
 
 def paper(engine):
     from pypdf import PdfReader
+    from manuscript import check_tables, input_paths
     import shutil
+    check_tables()
     engine = engine or shutil.which("tectonic") or shutil.which("pdflatex")
     if not engine:
         raise SystemExit("Install Tectonic or pdfLaTeX, then pass --engine if needed.")
@@ -117,7 +119,7 @@ def paper(engine):
     pages = len(PdfReader(ROOT / "paper/paper.pdf").pages)
     if not 1 <= pages <= 5:
         raise SystemExit(f"Expected 1-5 pages, got {pages}")
-    inputs = ["paper/paper.tex", "results/integration.json", "results/table.tex", "integration.py", "suite.json", "verification.py", "results/independent.json", "results/independent-table.tex", "paper/paper.pdf"]
+    inputs = input_paths()
     report = {"pages": pages, "sha256": {p: hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in inputs}}
     (ROOT/"paper/build-report.json").write_text(json.dumps(report, indent=2)+"\n", encoding="utf-8", newline="\n")
     print(f"Compiled and checked {pages} pages.")

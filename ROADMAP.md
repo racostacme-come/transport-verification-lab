@@ -46,3 +46,18 @@ source-bound tables, compilation and every-page visual review. November 11
 release only after every acceptance gate passes. Hosted day-5 status is
 recorded in the external portfolio; no merge or release on day 5.
 Hosted evidence is recorded in the portfolio. No merge/release before all gates.
+
+## Day 6: synthesis and manuscript evidence gates
+
+November 10 scheduled contribution, continued after midnight with actual Git
+timestamps. Original four-page synthesis at [source](paper/paper.tex) and
+[PDF](paper/paper.pdf); all tables and measured macros generated from the
+source-bound uniform/comparison/refinement reports. Strict source, table,
+PDF input-hash and page checks run in CI. Fourteen mutation tests challenge
+stale/missing scientific evidence. See [day-6 record](validation/enthalpy-day6.md).
+
+The original v0.1.0 synthesis remains at its tag. Numerical sources, fixed
+parameters, original repositories and imported snapshots are unchanged.
+Next: November 11 audit all acceptance gates, review the tested branch and
+release only if complete; then select a Vibration question from inspected
+ATSA/MLSP topics. No merge or release is claimed by the day-6 manuscript work.
